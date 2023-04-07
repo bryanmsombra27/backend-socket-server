@@ -24,10 +24,11 @@ class Server {
 
   execute() {
     this.middlewares();
-    this.configurarSockets();
+
     this.server.listen(this.port, () => {
       console.log(`aplicacion corriendo por el puerto: ${this.port}`);
     });
+    this.configurarSockets();
   }
 }
 

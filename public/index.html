@@ -14,24 +14,7 @@
 <body class="container ">
     <h1 class="mt-5">Mini chat</h1>
 
-    <form action="" id="form">
-        <div class="row">
-            <div class="col-md-8">
-                <input type="text" id="mensaje" name="mensaje" placeholder="mensaje..." class="form-control">
-            </div>
-            <div class="col-md-4">
-                <button class="btn btn-primary">Enviar mensaje</button>
-            </div>
-        </div>
-    </form>
 
-    <div class="row">
-        <div class="col">
-            <ul class="list-group mt-3" id="group-messages">
-                <!-- <li class="list-group-item">koso</li> -->
-            </ul>
-        </div>
-    </div>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"
@@ -40,45 +23,11 @@
 
     <script>
         const socket = io("http://localhost:8080")
-        const form = document.querySelector("#form");
-        const ul = document.querySelector("#group-messages");
 
-
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const mensaje = e.target.mensaje.value
-
-            socket.emit("mensajes-cliente", {
-                mensaje,
-                date: new Date(),
-            })
-
-            e.target.mensaje.value = ""
-        })
-
-        // escuchar
-        socket.on("mensajes-servidor", (data) => {
+        socket.on("current-bands", (data) => {
             console.log(data)
-            const li = document.createElement("li");
-            li.classList.add("list-group-item");
-            li.textContent = `${data.mensaje} - ${data.date}`;
-
-            ul.appendChild(li)
         })
 
-        // socket.on("mensaje-bienvenido", (data) => {
-        //     console.log(data)
-        // })
-
-        // setTimeout(() => {
-        //     console.log("mensaje enviado")
-
-        //     //emitir
-        //     socket.emit("mensaje-cliente", {
-        //         msg: "mensaje desde el cliente",
-        //         nombre: "koso"
-        //     })
-        // }, 2000)
 
     </script>
 
