@@ -11,20 +11,28 @@ class Server {
     this.port = process.env.PORT || 8080;
     this.server = http.createServer(this.app);
     this.io = socketio(this.server);
+    this.sockets = new Sockets(this.io);
   }
 
   middlewares() {
     this.app.use(express.static(path.resolve(__dirname, "../public")));
     this.app.use(cors());
+
+    this.app.get("/ultimos", (req, res) => {
+      return res.status(200).send({
+        ok: true,
+        tickets: this.sockets.ticketList.ultimos13,
+      });
+    });
   }
 
-  configurarSockets() {
-    new Sockets(this.io);
-  }
+  // configurarSockets() {
+  //   new Sockets(this.io);
+  // }
 
   execute() {
     this.middlewares();
-    this.configurarSockets();
+    // this.configurarSockets();
     this.server.listen(this.port, () => {
       console.log(`aplicacion corriendo por el puerto: ${this.port}`);
     });
